@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: MarthaAnimator
+  m_Controller: {fileID: 9100000, guid: 656560a2866ca6540a02484a1fc157b0, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: bcfe5b6006156624ab4276c02354abcd, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 617221912c573994c9672bb869c425af, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 84c1901301e77154ab29fdd059141920, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 27d982b8aa9ba9046abc99c8a4bb79b0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 5b0d1aafb8cfbfa4d8ce3fdaa4788480, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f06dfc6d5a8dc3e41853c7d8e8324e4d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f1831f66288e139499866dd4ccb24920, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 4fbbbf27b2074d24b8d2738f58e17035, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8c82b3dd42d7c1d49a8822b2a2a252fa, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e418fedde9e0474479fd8a91ebf4104b, type: 2}
