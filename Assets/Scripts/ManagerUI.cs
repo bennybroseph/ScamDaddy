@@ -36,7 +36,7 @@ public class ManagerUI : MonoBehaviour
     private GameObject m_DialogueOptionsMenu;
 
     [SerializeField, Space]
-    private Text m_TextBox;
+    private ScrollingText m_TextBox;
     [SerializeField]
     private Text m_CharacterNameText;
 
@@ -49,6 +49,9 @@ public class ManagerUI : MonoBehaviour
     private Button m_Option2;
     [SerializeField]
     private Button m_Option3;
+
+    [SerializeField, Space]
+    private AudioSource m_DoorOpenSource;
 
     private FadeScript m_FadeScript;
 
@@ -84,6 +87,8 @@ public class ManagerUI : MonoBehaviour
     // Use this for initialization
     private IEnumerator Start()
     {
+        m_DialogueOptionsMenu.SetActive(false);
+
         var onInitialCustomer = true;
         foreach (var customerObject in m_CustomerObjects)
         {
@@ -104,15 +109,17 @@ public class ManagerUI : MonoBehaviour
 
             m_CharacterAnimator.gameObject.SetActive(false);
 
-            m_CharacterNameText.text = "You";
-            m_TextBox.text = customerObject.dialogue.openingStatement;
-
             if (!onInitialCustomer && m_FadeScript)
             {
+                m_DoorOpenSource.Play();
+
                 var fadeIn = m_FadeScript.FadeIn();
                 while (fadeIn.MoveNext())
                     yield return null;
             }
+
+            m_CharacterNameText.text = "You";
+            m_TextBox.text = customerObject.dialogue.openingStatement;
 
             onInitialCustomer = false;
 
@@ -127,8 +134,6 @@ public class ManagerUI : MonoBehaviour
                 m_TextBox.text = statement.text;
 
                 m_CharacterAnimator.CrossFade("Neutral", m_CrossfadeTime);
-
-                yield return WaitForUser();
 
                 EnableDialogueOptions();
 
@@ -158,13 +163,13 @@ public class ManagerUI : MonoBehaviour
                         m_TextBox.text = statement.options[1].response;
                         m_CharacterAnimator.CrossFade(statement.options[1].mood, m_CrossfadeTime);
 
-                        m_DesireToBuy += statement.options[0].value;
+                        m_DesireToBuy += statement.options[1].value;
                         break;
                     case SelectedOption.Option3:
                         m_TextBox.text = statement.options[2].response;
                         m_CharacterAnimator.CrossFade(statement.options[2].mood, m_CrossfadeTime);
 
-                        m_DesireToBuy += statement.options[0].value;
+                        m_DesireToBuy += statement.options[2].value;
                         break;
 
                     case SelectedOption.Sell:
@@ -188,16 +193,16 @@ public class ManagerUI : MonoBehaviour
                 var fadeOut = m_FadeScript.FadeOut();
                 while (fadeOut.MoveNext())
                     yield return null;
+
+                m_TextBox.text = string.Empty;
+                m_CharacterNameText.text = string.Empty;
             }
         }
     }
 
     private void EnableTextBox()
     {
-        m_DialogueOptionsMenu.SetActive(false);
         m_TextBoxPanel.SetActive(true);
-
-        m_CharacterNameText.gameObject.SetActive(true);
 
         m_OnEnableTextBox.Invoke();
     }
@@ -206,10 +211,7 @@ public class ManagerUI : MonoBehaviour
     {
         m_DialogueOptionsMenu.SetActive(true);
         if (m_HideTextOnOptions)
-        {
             m_TextBoxPanel.SetActive(false);
-            m_CharacterNameText.gameObject.SetActive(false);
-        }
 
         m_OnEnableDialogueOptions.Invoke();
     }
@@ -226,28 +228,37 @@ public class ManagerUI : MonoBehaviour
 
         m_CharacterAnimator.CrossFade("Neutral", 0.2f);
 
-        m_CharacterNameText.text = "You";
-        m_TextBox.text = desireValue.salesPitch;
+        if (desireValue.salesPitch != string.Empty)
+        {
+            m_CharacterNameText.text = "You";
+            m_TextBox.text = desireValue.salesPitch;
 
-        yield return WaitForUser();
+            yield return WaitForUser();
+        }
 
-        m_CharacterNameText.text = customerObject.name;
+        if (desireValue.characterResponse != string.Empty)
+        {
+            m_CharacterNameText.text = customerObject.name;
 
-        m_TextBox.text = desireValue.characterResponse;
-        m_CharacterAnimator.CrossFade(desireValue.mood, m_CrossfadeTime);
+            m_TextBox.text = desireValue.characterResponse;
+            m_CharacterAnimator.CrossFade(desireValue.mood, m_CrossfadeTime);
 
-        yield return WaitForUser();
+            yield return WaitForUser();
+        }
 
-        m_CharacterNameText.text = "You";
+        if (desireValue.selfResponse != string.Empty)
+        {
+            m_CharacterNameText.text = "You";
 
-        m_TextBox.text = desireValue.selfResponse;
+            m_TextBox.text = desireValue.selfResponse;
 
-        yield return null;
+            yield return WaitForUser();
+        }
     }
 
-    private static IEnumerator WaitForUser()
+    private IEnumerator WaitForUser()
     {
-        while (!Input.anyKeyDown)
+        while (!Input.anyKeyDown || m_TextBox.isScrolling)
             yield return null;
 
         yield return null;

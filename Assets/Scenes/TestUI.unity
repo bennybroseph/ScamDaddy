@@ -493,6 +493,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 473eab85807fea944a964109af0de169, type: 2}
   - {fileID: 11400000, guid: 8943574cc5b8b6a458103018daf91a9f, type: 2}
   m_CrossfadeTime: 0.2
+  m_CharacterTransformIndex: 0
+  m_BackgroundImage: {fileID: 0}
   m_TextBoxPanel: {fileID: 1586202740}
   m_HideTextOnOptions: 1
   m_DialogueOptionsMenu: {fileID: 1536168989}
@@ -502,6 +504,7 @@ MonoBehaviour:
   m_Option1: {fileID: 711207503}
   m_Option2: {fileID: 1531833527}
   m_Option3: {fileID: 1674498173}
+  m_DoorOpenSource: {fileID: 0}
 --- !u!1 &896550613
 GameObject:
   m_ObjectHideFlags: 0
@@ -1632,7 +1635,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1876276689737462, guid: 4abd6b39cc326864d8aa271f53757274, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114177933129441760, guid: 4abd6b39cc326864d8aa271f53757274,
         type: 2}
@@ -1684,6 +1687,16 @@ Prefab:
         type: 2}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224828167943467798, guid: 4abd6b39cc326864d8aa271f53757274,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 224446923628409412, guid: 4abd6b39cc326864d8aa271f53757274,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4abd6b39cc326864d8aa271f53757274, type: 2}
